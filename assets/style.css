@@ -1,0 +1,34 @@
+body {
+	display: flex;
+}
+
+#start {
+	background-color: purple;
+	cursor: pointer;
+	margin: 0 auto;
+	min-width: 200px;
+	min-height: 100px;
+	justify-content: center;
+	align-items: center;
+	font-size: 200%;
+}
+#remove-display {
+	display: none;
+}
+
+#display {
+	display: block;
+}
+
+#correct {
+	color: green;
+}
+
+#incorrect {
+	color: red;
+}
+
+#disable {
+	pointer-events: none;
+	opacity: 0.7;
+}
