@@ -39,7 +39,7 @@ const questionsOptions = [
 			"Refers to all local variables",
 			"Refers to what is directly above it",
 		],
-		answer: "Refers to the object that 'this' this a property of",
+		answer: "Refers to the object that 'this' is a property of",
 	},
 	{
 		question: "Which of the following is not a way to get user input?",
@@ -66,13 +66,18 @@ function timeInterval() {
 			index++;
 			questions();
 			clearInterval(interval);
-			timeInterval();
-			// above fixes the issues and will go through all the questions, but at the end it sets the timer again when it needs to stop and send to results. also when the timer resets a 0 is left at the beginning of the new timer
+			// timerReset();
+			interval = setInterval(timeInterval, 10000);
+			// above will go through all the questions, bit it pretty much breaks the timer (not including that the old timer at 0 still sits there) need it to stop and send to results once it goes through all the questions.
 		}
 		spanEl.html(timer);
 		timerEl.append(spanEl);
 		timer--;
 	}, 1000);
+
+	// function timerReset() {
+	// 	timer = 10;
+	// }
 }
 
 function questions() {
