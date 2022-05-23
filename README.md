@@ -66,8 +66,7 @@ THEN I can save my initials and my score
 
 1. The first thing I did was go through the README and write out psuedocode to get an idea of how to the project was going to work. I then went to class, got some questions I had after making the psuedocode answered during office hours, and started the next day.
 2. I did a bit of work on it the following day, leading into a tutoring session in which my tutor was hugely helpful, as my tutor assisted me in creating a skeleton for how my JavaScript would work.
-
-3.
+3. I followed this by attempting to debug some of the JavaScript issues I was running into, but was unsuccessful. After this I worked on the styling and got it to a point where I liked it and began the README.
 
 ### Built with
 

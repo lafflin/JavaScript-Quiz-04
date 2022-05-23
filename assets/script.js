@@ -35,7 +35,7 @@ const questionsOptions = [
 		question: "What does 'this' refer to?",
 		options: [
 			"Refers to global variables",
-			"Refers to the object that 'this' this a property of",
+			"Refers to the object that 'this' is a property of",
 			"Refers to all local variables",
 			"Refers to what is directly above it",
 		],
@@ -66,6 +66,8 @@ function timeInterval() {
 			index++;
 			questions();
 			clearInterval(interval);
+			timeInterval();
+			// above fixes the issues and will go through all the questions, but at the end it sets the timer again when it needs to stop and send to results. also when the timer resets a 0 is left at the beginning of the new timer
 		}
 		spanEl.html(timer);
 		timerEl.append(spanEl);
@@ -84,7 +86,6 @@ function questions() {
 		let listItem = $(`<li onclick = optionClicked(event)>  </li>`);
 		listItem.html(questionsOptions[index].options[i]);
 		unorderedList.append(listItem);
-		// switches questions when the timer runs out (10s), then does not go to question 3 afterwards. not sure how to make it reset the timer for another 10s to go to the next question
 	}
 	mainEl.append(unorderedList);
 }
