@@ -3,7 +3,7 @@ var mainEl = $("#container");
 var startButtonEl = $("<button>");
 var timerEl = $("#timer");
 var quizEl = $("#quiz");
-var resultsEl = $("$results");
+var resultsEl = $("#results");
 const questionsOptions = [
 	{
 		question: "What typecase do we use in JavaScript?",
