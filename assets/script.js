@@ -84,7 +84,7 @@ function questions() {
 		let listItem = $(`<li onclick = optionClicked(event)>  </li>`);
 		listItem.html(questionsOptions[index].options[i]);
 		unorderedList.append(listItem);
-		// only goes through the first two questions because the timer runs out, not sure how to make it go to the next question after 10s, then reset the timer for another 10s
+		// switches questions when the timer runs out (10s), then does not go to question 3 afterwards. not sure how to make it reset the timer for another 10s to go to the next question
 	}
 	mainEl.append(unorderedList);
 }
@@ -106,6 +106,7 @@ function optionClicked(event) {
 	quizEl.children().remove();
 	quizEl.append(feedback);
 }
+
 // write results function here (waiting cause i am not sure how to make it go to results yet with the timer not working right rn)
 function results() {}
 
