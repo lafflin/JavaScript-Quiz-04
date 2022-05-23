@@ -58,13 +58,16 @@ THEN I can save my initials and my score
 
 ​
 
-- Solution URL: [Solution]()
-- Live Site URL: [Site]()
+- Solution URL: [Solution](https://github.com/lafflin/JavaScript-Quiz-04)
+- Live Site URL: [Site](https://lafflin.github.io/JavaScript-Quiz-04/)
   ​
 
 ## My process
 
-1.
+1. The first thing I did was go through the README and write out psuedocode to get an idea of how to the project was going to work. I then went to class, got some questions I had after making the psuedocode answered during office hours, and started the next day.
+2. I did a bit of work on it the following day, leading into a tutoring session in which my tutor was hugely helpful, as my tutor assisted me in creating a skeleton for how my JavaScript would work.
+
+3.
 
 ### Built with
 
