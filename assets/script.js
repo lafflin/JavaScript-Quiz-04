@@ -59,25 +59,28 @@ startButtonEl.on("click", function () {
 });
 
 function timeInterval() {
-	let timer = 10;
+	let timer = 9;
 	let spanEl = $("<span></span>");
 	let interval = setInterval(function () {
-		if (timer === 0) {
+		if (timer === 0 && index <= 4) {
+			// current issue here is that since i cant go to index=5, i cant get the function to go to the score area
 			index++;
 			questions();
+			timerReset();
+			// it now will go through all of the questions, need an if statement to send it to the results page at the end
+		}
+		if (index > 4) {
+			mainEl.children().remove();
+			scoreArea();
 			clearInterval(interval);
-			// timerReset();
-			interval = setInterval(timeInterval, 10000);
-			// above will go through all the questions, bit it pretty much breaks the timer (not including that the old timer at 0 still sits there) need it to stop and send to results once it goes through all the questions.
+		}
+		function timerReset() {
+			timer = 9;
 		}
 		spanEl.html(timer);
 		timerEl.append(spanEl);
 		timer--;
 	}, 1000);
-
-	// function timerReset() {
-	// 	timer = 10;
-	// }
 }
 
 function questions() {
@@ -113,7 +116,12 @@ function optionClicked(event) {
 	quizEl.append(feedback);
 }
 
-// write results function here (waiting cause i am not sure how to make it go to results yet with the timer not working right rn)
-function results() {}
+function scoreArea() {
+	let resultsDiv = $("<div> </div>");
+	// need to get the score from the localStorage to display it here
+	resultsDiv.html("Final Score: ", score);
+	// need to be able to add initials to the score to then store that to localStorage
+	resultsEl.append(resultsDiv);
+}
 
-// after timer runs out on final question, got to results page with final score, allow user to add initials, then log it to the userStorage
+// need to add a high score screen
