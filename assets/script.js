@@ -4,6 +4,8 @@ var startButtonEl = $("<button>");
 var timerEl = $("#timer");
 var quizEl = $("#quiz");
 var resultsEl = $("#results");
+var feedbackEl = $("#feedback");
+
 const questionsOptions = [
 	{
 		question: "What typecase do we use in JavaScript?",
@@ -57,25 +59,16 @@ startButtonEl.on("click", function () {
 	timerEl.append("Time Remaining: ");
 	timeInterval();
 });
-
+let timer = 60;
 function timeInterval() {
-	let timer = 9;
 	let spanEl = $("<span></span>");
 	let interval = setInterval(function () {
-		if (timer === 0 && index <= 4) {
-			// current issue here is that since i cant go to index=5, i cant get the function to go to the score area
-			index++;
+		if (timer > 0) {
 			questions();
-			timerReset();
-			// it now will go through all of the questions, need an if statement to send it to the results page at the end
-		}
-		if (index > 4) {
+		} else {
 			mainEl.children().remove();
 			scoreArea();
 			clearInterval(interval);
-		}
-		function timerReset() {
-			timer = 9;
 		}
 		spanEl.html(timer);
 		timerEl.append(spanEl);
@@ -107,13 +100,18 @@ function optionClicked(event) {
 		feedback.attr("id", "correct");
 		feedback.html("That is the correct answer");
 		localStorage.setItem("Score: ", ++score);
-		// issue with the score adding multiple times still exists
 	} else {
 		feedback.attr("id", "incorrect");
 		feedback.html("That is the incorrect answer");
+		timer - 5;
+	}
+	if (index < questionsOptions.length - 1) {
+		index++;
 	}
 	quizEl.children().remove();
-	quizEl.append(feedback);
+	feedbackEl.children().remove();
+	feedbackEl.append(feedback);
+	questions();
 }
 
 function scoreArea() {
@@ -124,4 +122,7 @@ function scoreArea() {
 	resultsEl.append(resultsDiv);
 }
 
-// need to add a high score screen
+// make this screen display the top 3 high scores as well
+
+// make the timer stop at the end of the questions and send the user to the scoreArea.
+// score area must display your score, the top 3 high scores. must also allow you to store your score alongside your initials.
