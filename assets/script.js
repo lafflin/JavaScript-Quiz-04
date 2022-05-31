@@ -66,8 +66,23 @@ function timeInterval() {
 	let interval = setInterval(function () {
 		if (timer > 0) {
 			questions();
-			// make timer stop at end of questions the log the time in local storage
-		} else {
+			// right now this will still skip the final question, need to make the index go up 1 after answering the final question so that i can do index === 5
+			if (index === 4) {
+				mainEl.children().remove();
+				feedbackEl.children().remove();
+				localStorage.setItem("Time Remaining: ", timer);
+				scoreArea();
+				clearInterval(interval);
+			}
+		}
+		// if (timer > 0 && index === 4) {
+		// 	mainEl.children().remove();
+		// 	feedbackEl.children().remove();
+		// 	console.log(timer);
+		// 	scoreArea();
+		// 	clearInterval(interval);
+		// }
+		else {
 			mainEl.children().remove();
 			feedbackEl.children().remove();
 			scoreArea();
@@ -119,12 +134,14 @@ function optionClicked(event) {
 
 function scoreArea() {
 	let resultsDiv = $("<div> </div>");
-	// need to make timer stop at end of the questions, then make that show up as the score
-	localStorage.getItem("score");
-	resultsDiv.html("Final Score: ", score);
+	let timerScore = localStorage.getItem("Time Remaining: ");
+	// i can log and can see in the local storage this variable, but i cant get it to show up on the page
+	console.log(localStorage.getItem("Time Remaining: "));
+	resultsDiv.html("Time Remaining (score): ", timerScore);
 	let setHighScore = $("<input>");
 	let highScoreButton = $("<button>");
 	let highScoreDiv = $("<div>");
+	let highScoreContent = $("<div>");
 	highScoreDiv.text("Enter your initials here to add your high score!");
 	setHighScore.text("Enter Initials here");
 	highScoreButton.text("Submit");
@@ -138,5 +155,4 @@ function scoreArea() {
 	highScoreEl.append(highScoreButton);
 }
 
-// make the timer stop at the end of the questions and send the user to the scoreArea.
 // score area must display your score, the top 3 high scores. must also allow you to store your score alongside your initials.
