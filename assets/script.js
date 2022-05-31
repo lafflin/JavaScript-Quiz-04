@@ -5,6 +5,7 @@ var timerEl = $("#timer");
 var quizEl = $("#quiz");
 var resultsEl = $("#results");
 var feedbackEl = $("#feedback");
+var highScoreEl = $("#high-score-input");
 
 const questionsOptions = [
 	{
@@ -59,14 +60,16 @@ startButtonEl.on("click", function () {
 	timerEl.append("Time Remaining: ");
 	timeInterval();
 });
-let timer = 60;
+let timer = 30;
 function timeInterval() {
 	let spanEl = $("<span></span>");
 	let interval = setInterval(function () {
 		if (timer > 0) {
 			questions();
+			// make timer stop at end of questions the log the time in local storage
 		} else {
 			mainEl.children().remove();
+			feedbackEl.children().remove();
 			scoreArea();
 			clearInterval(interval);
 		}
@@ -103,7 +106,7 @@ function optionClicked(event) {
 	} else {
 		feedback.attr("id", "incorrect");
 		feedback.html("That is the incorrect answer");
-		timer - 5;
+		timer -= 5;
 	}
 	if (index < questionsOptions.length - 1) {
 		index++;
@@ -116,13 +119,24 @@ function optionClicked(event) {
 
 function scoreArea() {
 	let resultsDiv = $("<div> </div>");
-	// need to get the score from the localStorage to display it here
+	// need to make timer stop at end of the questions, then make that show up as the score
+	localStorage.getItem("score");
 	resultsDiv.html("Final Score: ", score);
-	// need to be able to add initials to the score to then store that to localStorage
-	resultsEl.append(resultsDiv);
-}
+	let setHighScore = $("<input>");
+	let highScoreButton = $("<button>");
+	let highScoreDiv = $("<div>");
+	highScoreDiv.text("Enter your initials here to add your high score!");
+	setHighScore.text("Enter Initials here");
+	highScoreButton.text("Submit");
+	// function needs to be written to add high score to list
+	highScoreButton.on("click", function () {});
 
-// make this screen display the top 3 high scores as well
+	resultsEl.append(resultsDiv);
+	resultsDiv.append(highScoreDiv);
+	resultsEl.append(highScoreEl);
+	highScoreEl.append(setHighScore);
+	highScoreEl.append(highScoreButton);
+}
 
 // make the timer stop at the end of the questions and send the user to the scoreArea.
 // score area must display your score, the top 3 high scores. must also allow you to store your score alongside your initials.
