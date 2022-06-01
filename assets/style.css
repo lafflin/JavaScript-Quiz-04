@@ -43,7 +43,9 @@ body {
 }
 
 #container,
-#quiz {
+#quiz,
+#results,
+#high-score-input {
 	font-size: 200%;
 }
 

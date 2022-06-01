@@ -67,22 +67,15 @@ function timeInterval() {
 		if (timer > 0) {
 			questions();
 			// right now this will still skip the final question, need to make the index go up 1 after answering the final question so that i can do index === 5
-			if (index === 4) {
+			if (index === 5) {
 				mainEl.children().remove();
 				feedbackEl.children().remove();
+				// need to do this somewhere else cause it always logs 28
 				localStorage.setItem("Time Remaining: ", timer);
 				scoreArea();
 				clearInterval(interval);
 			}
-		}
-		// if (timer > 0 && index === 4) {
-		// 	mainEl.children().remove();
-		// 	feedbackEl.children().remove();
-		// 	console.log(timer);
-		// 	scoreArea();
-		// 	clearInterval(interval);
-		// }
-		else {
+		} else {
 			mainEl.children().remove();
 			feedbackEl.children().remove();
 			scoreArea();
@@ -118,13 +111,14 @@ function optionClicked(event) {
 		feedback.attr("id", "correct");
 		feedback.html("That is the correct answer");
 		localStorage.setItem("Score: ", ++score);
+		// this is in here so that you only index up if you get it correct
+		if (index < questionsOptions.length - 1) {
+			index++;
+		}
 	} else {
 		feedback.attr("id", "incorrect");
 		feedback.html("That is the incorrect answer");
 		timer -= 5;
-	}
-	if (index < questionsOptions.length - 1) {
-		index++;
 	}
 	quizEl.children().remove();
 	feedbackEl.children().remove();
@@ -136,17 +130,21 @@ function scoreArea() {
 	let resultsDiv = $("<div> </div>");
 	let timerScore = localStorage.getItem("Time Remaining: ");
 	// i can log and can see in the local storage this variable, but i cant get it to show up on the page
-	console.log(localStorage.getItem("Time Remaining: "));
-	resultsDiv.html("Time Remaining (score): ", timerScore);
-	let setHighScore = $("<input>");
-	let highScoreButton = $("<button>");
+	console.log(timerScore);
+	// i cant get anything to show up to the right of the time remaining
+	resultsDiv.text("Time Remaining (score): ", timerScore);
+	let setHighScore = $("<input type='text'>");
+	let highScoreButton = $("<input type='submit'>");
 	let highScoreDiv = $("<div>");
 	let highScoreContent = $("<div>");
-	highScoreDiv.text("Enter your initials here to add your high score!");
-	setHighScore.text("Enter Initials here");
+	highScoreDiv.text("Enter your initials below to add your high score!");
 	highScoreButton.text("Submit");
 	// function needs to be written to add high score to list
-	highScoreButton.on("click", function () {});
+	highScoreButton.on("click", function () {
+		resultsEl.children().remove();
+		highScoreEl.children().remove();
+		highScoreList();
+	});
 
 	resultsEl.append(resultsDiv);
 	resultsDiv.append(highScoreDiv);
