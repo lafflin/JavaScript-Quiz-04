@@ -66,9 +66,9 @@ function timeInterval() {
 	let interval = setInterval(function () {
 		if (timer > 0) {
 			questions();
-			// right now this will still skip the final question, need to make the index go up 1 after answering the final question so that i can do index === 5
+			// right now this will just clear the page right when index = 5, doesnt take the user to the score area
 			if (index === 5) {
-				mainEl.children().remove();
+				quizEl.children().remove();
 				feedbackEl.children().remove();
 				// need to do this somewhere else cause it always logs 28
 				localStorage.setItem("Time Remaining: ", timer);
@@ -111,7 +111,7 @@ function optionClicked(event) {
 		feedback.attr("id", "correct");
 		feedback.html("That is the correct answer");
 		localStorage.setItem("Score: ", ++score);
-		// this is in here so that you only index up if you get it correct
+		// removing the if statement allows you to index to 5 but breaks everything else, need to find a way to index to five somehow still
 		if (index < questionsOptions.length - 1) {
 			index++;
 		}
@@ -141,8 +141,6 @@ function scoreArea() {
 	highScoreButton.text("Submit");
 	// function needs to be written to add high score to list
 	highScoreButton.on("click", function () {
-		resultsEl.children().remove();
-		highScoreEl.children().remove();
 		highScoreList();
 	});
 
@@ -151,6 +149,11 @@ function scoreArea() {
 	resultsEl.append(highScoreEl);
 	highScoreEl.append(setHighScore);
 	highScoreEl.append(highScoreButton);
+}
+
+function highScoreList() {
+	resultsEl.children().remove();
+	highScoreEl.children().remove();
 }
 
 // score area must display your score, the top 3 high scores. must also allow you to store your score alongside your initials.
