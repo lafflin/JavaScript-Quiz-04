@@ -6,7 +6,7 @@ var quizEl = $("#quiz");
 var resultsEl = $("#results");
 var feedbackEl = $("#feedback");
 var highScoreEl = $("#high-score-input");
-
+// the five questions used in the quiz
 const questionsOptions = [
 	{
 		question: "What typecase do we use in JavaScript?",
@@ -50,16 +50,20 @@ const questionsOptions = [
 		answer: "Ask",
 	},
 ];
+// setting index to 0 for the questions
 let index = 0;
+// code to generate start button for the start button
 startButtonEl.text("Start");
 startButtonEl.attr("id", "start");
 mainEl.append(startButtonEl);
+// function that on click removes the start button from the page, starts the questions and the timer
 startButtonEl.on("click", function () {
 	startButtonEl.attr("id", "remove-display");
 	questions();
 	timerEl.append("Time Remaining: ");
 	timeInterval();
 });
+// sets timer to 30 seconds
 let timer = 30;
 function timeInterval() {
 	let spanEl = $("<span></span>");
@@ -71,7 +75,7 @@ function timeInterval() {
 				quizEl.children().remove();
 				feedbackEl.children().remove();
 				// need to do this somewhere else cause it always logs 28
-				localStorage.setItem("Time Remaining: ", timer);
+				// localStorage.setItem("Time Remaining", timer);
 				scoreArea();
 				clearInterval(interval);
 			}
@@ -91,9 +95,11 @@ function questions() {
 	mainEl.children().remove();
 	quizEl.children().remove();
 	let questionDiv = $("<div>  </div>");
+	// puts the question onto the page based on the index that the user is on
 	questionDiv.html(questionsOptions[index].question);
 	mainEl.append(questionDiv);
 	let unorderedList = $("<ul> </ul>");
+	// puts the question options into li's and puts them onto the page
 	for (let i = 0; i < questionsOptions[index].options.length; i++) {
 		let listItem = $(`<li onclick = optionClicked(event)>  </li>`);
 		listItem.html(questionsOptions[index].options[i]);
@@ -103,10 +109,10 @@ function questions() {
 }
 
 score = 0;
-
 function optionClicked(event) {
 	console.log(event.target.innerHTML);
 	let feedback = $("<div> </div>");
+	// for the option clicked, if it is correct it pops up that the user is correct, adds to the score, and index's the user up one
 	if (event.target.innerHTML === questionsOptions[index].answer) {
 		feedback.attr("id", "correct");
 		feedback.html("That is the correct answer");
@@ -115,11 +121,13 @@ function optionClicked(event) {
 		if (index < questionsOptions.length - 1) {
 			index++;
 		}
+		// if the user is incorrect it tells the user they are incorrect and removes 5 seconds from the timer
 	} else {
 		feedback.attr("id", "incorrect");
 		feedback.html("That is the incorrect answer");
 		timer -= 5;
 	}
+	// removes the previous question and it's feedback from the page
 	quizEl.children().remove();
 	feedbackEl.children().remove();
 	feedbackEl.append(feedback);
