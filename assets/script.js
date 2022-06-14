@@ -71,9 +71,9 @@ function timeInterval() {
 		if (timer > 0) {
 			questions();
 			// right now this will just clear the page right when index = 5, doesnt take the user to the score area
-			// if (index === 5) {
-			// endGame()
-			// }
+			if (index === 5) {
+				endGame();
+			}
 		} else {
 			mainEl.children().remove();
 			feedbackEl.children().remove();
