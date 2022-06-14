@@ -94,17 +94,15 @@ function questions() {
 	if (index < 5) {
 		questionDiv.text(questionsOptions[index].question);
 		mainEl.append(questionDiv);
+		let unorderedList = $("<ul> </ul>");
+		// puts the question options into li's and puts them onto the page
+		for (let i = 0; i < questionsOptions[index].options.length; i++) {
+			let listItem = $(`<li onclick = optionClicked(event)>  </li>`);
+			listItem.html(questionsOptions[index].options[i]);
+			unorderedList.append(listItem);
+		}
+		mainEl.append(unorderedList);
 	}
-	let unorderedList = $("<ul> </ul>");
-	// puts the question options into li's and puts them onto the page
-	for (let i = 0; i < questionsOptions[index].options.length; i++) {
-		let listItem = $(`<li onclick = optionClicked(event)>  </li>`);
-		listItem.html(questionsOptions[index].options[i]);
-		unorderedList.append(listItem);
-	}
-
-	mainEl.append(unorderedList);
-	return;
 }
 
 score = 0;
@@ -115,7 +113,7 @@ function optionClicked(event) {
 	if (event.target.innerHTML === questionsOptions[index].answer) {
 		feedback.attr("id", "correct");
 		feedback.html("That is the correct answer");
-		localStorage.setItem("Score: ", ++score);
+		// localStorage.setItem("Score: ", ++score);
 		// removing the if statement allows you to index to 5 but breaks everything else, need to find a way to index to five somehow still
 
 		// if the user is incorrect it tells the user they are incorrect and removes 5 seconds from the timer
@@ -145,28 +143,35 @@ function endGame() {
 
 function scoreArea() {
 	let resultsDiv = $("<div> </div>");
-	let setHighScore = $("<input type='text'>");
+	let setScoreName = $("<input type='text'>");
 	let highScoreButton = $("<input type='submit'>");
 	let highScoreDiv = $("<div>");
-	let highScoreContent = $("<div>");
 	highScoreDiv.text("Enter your initials below to add your high score!");
 	// function needs to be written to add high score to list
 	highScoreButton.on("click", function () {
-		let userInfo = setHighScore.val();
-		localStorage.setItem(userInfo, timer);
+		let userSubmit = {
+			name: setScoreName.val(),
+			score: timer,
+		};
+		let highScoreStorage = [];
+		highScoreStorage.push(userSubmit);
+		localStorage.setItem("Score", JSON.stringify(highScoreStorage));
 		highScoreList();
 	});
 
 	resultsEl.append(resultsDiv);
 	resultsDiv.append(highScoreDiv);
 	resultsEl.append(highScoreEl);
-	highScoreEl.append(setHighScore);
+	highScoreEl.append(setScoreName);
 	highScoreEl.append(highScoreButton);
 }
 
 function highScoreList() {
 	resultsEl.children().remove();
 	highScoreEl.children().remove();
+
+	let scoreList = $("<p>");
+	scoreList.text(localStorage.getItem("Score"));
 }
 
 // score area must display your score, the top 3 high scores. must also allow you to store your score alongside your initials.
