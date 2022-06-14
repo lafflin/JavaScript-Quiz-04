@@ -68,7 +68,7 @@ let timer = 30;
 function timeInterval() {
 	let spanEl = $("<span></span>");
 	let interval = setInterval(function () {
-		if (timer > 0) {
+		if (timer > 0 && index <= 4) {
 			questions();
 			// right now this will just clear the page right when index = 5, doesnt take the user to the score area
 			if (index === 5) {
@@ -91,8 +91,10 @@ function questions() {
 	quizEl.children().remove();
 	let questionDiv = $("<div>  </div>");
 	// puts the question onto the page based on the index that the user is on
-	questionDiv.text(questionsOptions[index].question);
-	mainEl.append(questionDiv);
+	if (index < 5) {
+		questionDiv.text(questionsOptions[index].question);
+		mainEl.append(questionDiv);
+	}
 	let unorderedList = $("<ul> </ul>");
 	// puts the question options into li's and puts them onto the page
 	for (let i = 0; i < questionsOptions[index].options.length; i++) {
@@ -100,6 +102,7 @@ function questions() {
 		listItem.html(questionsOptions[index].options[i]);
 		unorderedList.append(listItem);
 	}
+
 	mainEl.append(unorderedList);
 	return;
 }
@@ -142,19 +145,15 @@ function endGame() {
 
 function scoreArea() {
 	let resultsDiv = $("<div> </div>");
-	let timerScore = localStorage.getItem("Time Remaining: ");
-	// i can log and can see in the local storage this variable, but i cant get it to show up on the page
-	console.log(timerScore);
-	// i cant get anything to show up to the right of the time remaining
-	resultsDiv.text("Time Remaining (score): ", timerScore);
 	let setHighScore = $("<input type='text'>");
 	let highScoreButton = $("<input type='submit'>");
 	let highScoreDiv = $("<div>");
 	let highScoreContent = $("<div>");
 	highScoreDiv.text("Enter your initials below to add your high score!");
-	highScoreButton.text("Submit");
 	// function needs to be written to add high score to list
 	highScoreButton.on("click", function () {
+		let userInfo = setHighScore.val();
+		localStorage.setItem(userInfo, timer);
 		highScoreList();
 	});
 
