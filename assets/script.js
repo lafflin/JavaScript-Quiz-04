@@ -71,14 +71,9 @@ function timeInterval() {
 		if (timer > 0) {
 			questions();
 			// right now this will just clear the page right when index = 5, doesnt take the user to the score area
-			if (index === 5) {
-				quizEl.children().remove();
-				feedbackEl.children().remove();
-				// need to do this somewhere else cause it always logs 28
-				// localStorage.setItem("Time Remaining", timer);
-				scoreArea();
-				clearInterval(interval);
-			}
+			// if (index === 5) {
+			// endGame()
+			// }
 		} else {
 			mainEl.children().remove();
 			feedbackEl.children().remove();
@@ -96,7 +91,7 @@ function questions() {
 	quizEl.children().remove();
 	let questionDiv = $("<div>  </div>");
 	// puts the question onto the page based on the index that the user is on
-	questionDiv.html(questionsOptions[index].question);
+	questionDiv.text(questionsOptions[index].question);
 	mainEl.append(questionDiv);
 	let unorderedList = $("<ul> </ul>");
 	// puts the question options into li's and puts them onto the page
@@ -106,6 +101,7 @@ function questions() {
 		unorderedList.append(listItem);
 	}
 	mainEl.append(unorderedList);
+	return;
 }
 
 score = 0;
@@ -118,20 +114,30 @@ function optionClicked(event) {
 		feedback.html("That is the correct answer");
 		localStorage.setItem("Score: ", ++score);
 		// removing the if statement allows you to index to 5 but breaks everything else, need to find a way to index to five somehow still
-		if (index < questionsOptions.length - 1) {
-			index++;
-		}
+
 		// if the user is incorrect it tells the user they are incorrect and removes 5 seconds from the timer
 	} else {
 		feedback.attr("id", "incorrect");
 		feedback.html("That is the incorrect answer");
 		timer -= 5;
 	}
+
+	index++;
+
 	// removes the previous question and it's feedback from the page
 	quizEl.children().remove();
 	feedbackEl.children().remove();
 	feedbackEl.append(feedback);
 	questions();
+}
+
+function endGame() {
+	quizEl.children().remove();
+	feedbackEl.children().remove();
+	// need to do this somewhere else cause it always logs 28
+	// localStorage.setItem("Time Remaining", timer);
+	scoreArea();
+	clearInterval(interval);
 }
 
 function scoreArea() {
