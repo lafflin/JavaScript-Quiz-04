@@ -6,6 +6,9 @@ var quizEl = $("#quiz");
 var resultsEl = $("#results");
 var feedbackEl = $("#feedback");
 var highScoreEl = $("#high-score-input");
+var highScoreStorage = [];
+let scoreListEl = $("#scoreList");
+let scoreHeaderEl = $("#scoreHeader");
 // the five questions used in the quiz
 const questionsOptions = [
 	{
@@ -63,20 +66,19 @@ startButtonEl.on("click", function () {
 	timerEl.append("Time Remaining: ");
 	timeInterval();
 });
-// sets timer to 30 seconds
 let timer = 30;
 function timeInterval() {
 	let spanEl = $("<span></span>");
 	let interval = setInterval(function () {
 		if (timer > 0 && index <= 4) {
 			questions();
-			// right now this will just clear the page right when index = 5, doesnt take the user to the score area
 			if (index === 5) {
 				endGame();
 			}
 		} else {
 			mainEl.children().remove();
 			feedbackEl.children().remove();
+			timerEl.children().remove();
 			scoreArea();
 			clearInterval(interval);
 		}
@@ -135,8 +137,7 @@ function optionClicked(event) {
 function endGame() {
 	quizEl.children().remove();
 	feedbackEl.children().remove();
-	// need to do this somewhere else cause it always logs 28
-	// localStorage.setItem("Time Remaining", timer);
+	timerEl.children().remove();
 	scoreArea();
 	clearInterval(interval);
 }
@@ -147,18 +148,16 @@ function scoreArea() {
 	let highScoreButton = $("<input type='submit'>");
 	let highScoreDiv = $("<div>");
 	highScoreDiv.text("Enter your initials below to add your high score!");
-	// function needs to be written to add high score to list
-	highScoreButton.on("click", function () {
+	highScoreButton.on("click", function (event) {
+		event.preventDefault();
 		let userSubmit = {
 			name: setScoreName.val(),
 			score: timer,
 		};
-		let highScoreStorage = [];
 		highScoreStorage.push(userSubmit);
 		localStorage.setItem("Score", JSON.stringify(highScoreStorage));
 		highScoreList();
 	});
-
 	resultsEl.append(resultsDiv);
 	resultsDiv.append(highScoreDiv);
 	resultsEl.append(highScoreEl);
@@ -169,9 +168,21 @@ function scoreArea() {
 function highScoreList() {
 	resultsEl.children().remove();
 	highScoreEl.children().remove();
-
-	let scoreList = $("<p>");
-	scoreList.text(localStorage.getItem("Score"));
+	let scoreHeader = $("<h3></h3>");
+	scoreHeader.text("High Score List");
+	scoreHeaderEl.append(scoreHeader);
+	scoreHeader.append(scoreListEl);
+	scoreListEl.empty();
+	if (highScoreStorage.length > 0) {
+		for (let i = 0; i < 5; i++) {
+			if (i < highScoreStorage.length) {
+				let highScoreItem = highScoreStorage[i];
+				scoreListEl
+					.append($("<li>"))
+					.text(
+						i + 1 + ". " + highScoreItem.name + " - " + highScoreItem.score
+					);
+			}
+		}
+	}
 }
-
-// score area must display your score, the top 3 high scores. must also allow you to store your score alongside your initials.
