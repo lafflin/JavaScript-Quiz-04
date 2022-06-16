@@ -1,4 +1,5 @@
-// start button content
+// main DOM elements
+var bodyEl = $("#body");
 var mainEl = $("#container");
 var startButtonEl = $("<button>");
 var timerEl = $("#timer");
@@ -70,11 +71,14 @@ let timer = 30;
 function timeInterval() {
 	let spanEl = $("<span></span>");
 	let interval = setInterval(function () {
+		// keeps asking questions as long as the timer is >0 and index is <=4
 		if (timer > 0 && index <= 4) {
 			questions();
+			// calls the end game function once index = 5 (all questions asked)
 			if (index === 5) {
 				endGame();
 			}
+			// same as the end game function, but triggers when the timer runs out
 		} else {
 			mainEl.children().remove();
 			feedbackEl.children().remove();
@@ -82,6 +86,7 @@ function timeInterval() {
 			scoreArea();
 			clearInterval(interval);
 		}
+		// appends the timer info onto the page
 		spanEl.html(timer);
 		timerEl.append(spanEl);
 		timer--;
@@ -111,22 +116,18 @@ score = 0;
 function optionClicked(event) {
 	console.log(event.target.innerHTML);
 	let feedback = $("<div> </div>");
-	// for the option clicked, if it is correct it pops up that the user is correct, adds to the score, and index's the user up one
+	// for the option clicked, if it is correct it pops up that the user is correct
 	if (event.target.innerHTML === questionsOptions[index].answer) {
 		feedback.attr("id", "correct");
 		feedback.html("That is the correct answer");
-		// localStorage.setItem("Score: ", ++score);
-		// removing the if statement allows you to index to 5 but breaks everything else, need to find a way to index to five somehow still
-
 		// if the user is incorrect it tells the user they are incorrect and removes 5 seconds from the timer
 	} else {
 		feedback.attr("id", "incorrect");
 		feedback.html("That is the incorrect answer");
 		timer -= 5;
 	}
-
+	// moves the user up one in the index per answer click
 	index++;
-
 	// removes the previous question and it's feedback from the page
 	quizEl.children().remove();
 	feedbackEl.children().remove();
@@ -134,20 +135,22 @@ function optionClicked(event) {
 	questions();
 }
 
+// switches the user into the score area and removes all parts of the quiz on the screen
 function endGame() {
-	quizEl.children().remove();
-	feedbackEl.children().remove();
-	timerEl.children().remove();
-	scoreArea();
+	bodyEl.children().remove();
 	clearInterval(interval);
+	scoreArea();
 }
 
+// this function generates the area for the user to input their name to add their score to the high score list
 function scoreArea() {
+	// base stuff to generate buttons and text field for submitting user info
 	let resultsDiv = $("<div> </div>");
 	let setScoreName = $("<input type='text'>");
 	let highScoreButton = $("<input type='submit'>");
 	let highScoreDiv = $("<div>");
 	highScoreDiv.text("Enter your initials below to add your high score!");
+	// on click adds the users entered name and their score (timer), to the highScoreStorage
 	highScoreButton.on("click", function (event) {
 		event.preventDefault();
 		let userSubmit = {
@@ -155,9 +158,11 @@ function scoreArea() {
 			score: timer,
 		};
 		highScoreStorage.push(userSubmit);
+		// sets the score into the local storage
 		localStorage.setItem("Score", JSON.stringify(highScoreStorage));
 		highScoreList();
 	});
+	// appends all of theses elements so that the page generates
 	resultsEl.append(resultsDiv);
 	resultsDiv.append(highScoreDiv);
 	resultsEl.append(highScoreEl);
