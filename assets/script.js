@@ -7,7 +7,7 @@ var quizEl = $("#quiz");
 var resultsEl = $("#results");
 var feedbackEl = $("#feedback");
 var highScoreEl = $("#high-score-input");
-var highScoreStorage = [];
+highScoreStorage = JSON.parse(localStorage.getItem("Score")) || [];
 let scoreListEl = $("#scoreList");
 let scoreHeaderEl = $("#scoreHeader");
 // the five questions used in the quiz
