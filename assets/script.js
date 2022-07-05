@@ -178,15 +178,20 @@ function highScoreList() {
 	scoreHeaderEl.append(scoreHeader);
 	scoreHeader.append(scoreListEl);
 	scoreListEl.empty();
+
+	highScoreStorage.sort(function (a, b) {
+		return parseFloat(b.score) - parseFloat(a.score);
+	});
+
 	if (highScoreStorage.length > 0) {
 		for (let i = 0; i < 5; i++) {
 			if (i < highScoreStorage.length) {
 				let highScoreItem = highScoreStorage[i];
-				scoreListEl
-					.append($("<li>"))
-					.text(
+				$("#scoreList").append(
+					$("<li>").text(
 						i + 1 + ". " + highScoreItem.name + " - " + highScoreItem.score
-					);
+					)
+				);
 			}
 		}
 	}
